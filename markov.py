@@ -40,7 +40,7 @@ class Markov:
             nodes.append(node)
         # link construction
         for i, (n1, n2) in enumerate(pairwise(nodes)):
-            n1.links.append(Link(n2, 1))
+            n1.links.append(Link(n2, 1, n1))
         # dirty link cleanup
         for node in nodes:
             node.merge()
@@ -93,10 +93,12 @@ class Node:
 class Link:
     node: Node
     weight: float
+    from_node: Node
 
-    def __init__(self, node: Node, weight: float) -> None:
+    def __init__(self, node: Node, weight: float, from_node: Node) -> None:
         self.node = node
         self.weight = weight
+        self.from_node = from_node
 
     def __repr__(self) -> str:
         return f"Link with node: #{id(self.node)} weight: {self.weight}"
